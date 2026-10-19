@@ -1,0 +1,43 @@
+# =====================================================================
+# .gitignore · SRI · UT1 · Repositorio sri-ut1-<nombre>
+# Evita subir por error claves, contraseñas y ficheros innecesarios.
+# OJO: .gitignore no borra lo que ya se ha subido. Si un secreto llegó
+# a un commit, hay que eliminarlo también del historial.
+# =====================================================================
+
+# --- Claves SSH y certificados (por ejemplo, labsuser.pem del laboratorio)
+*.pem
+*.ppk
+*.key
+id_rsa*
+id_ed25519*
+
+# --- Ficheros de usuarios y contraseñas de Nginx
+*htpasswd*
+*.passwd
+*.pass
+usuarios*
+credenciales*
+contraseñas*
+
+# --- Variables de entorno y secretos
+.env
+.env.*
+*.secret
+
+# --- Registros en bruto de Nginx (contienen IP; las estadísticas van en evidencias/)
+*.log
+*.log.*
+*.gz
+
+# --- Ficheros del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Ficheros temporales de editores
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
