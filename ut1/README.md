@@ -131,3 +131,33 @@
 
 * **Restricción de acceso en directorios sin índice (`403 Forbidden`):**  
   ![Error 403](evidencias/error-403.png)
+
+
+---
+
+## Apartado 5. Autenticación y control de acceso (CE 3.e)
+
+### Acciones realizadas:
+1. **Gestión de Credenciales:** Se han generado ficheros de usuarios y contraseñas mediante la herramienta `htpasswd` ubicados en un directorio seguro fuera de las rutas web (`/etc/nginx/auth/`), configurados con permisos estrictos de lectura exclusiva para `root` y `www-data`.
+   * Fichero `.htpasswd_intranet`: Contiene a los usuarios `percy` y `profesor`.
+   * Fichero `.htpasswd_admin`: Contiene exclusivamente al usuario `percy`.
+2. **Protección de la Intranet (Puerto 8080):** Se ha aplicado autenticación básica (`auth_basic`) obligatoria para toda la intranet, requiriendo las credenciales válidas de `percy` o `profesor`.
+3. **Control de acceso híbrido en `/admin/`:** Se ha configurado la directiva `satisfy any;` combinando restricciones de red y credenciales:
+   * Se permite el acceso libre sin credenciales únicamente desde el propio servidor (`127.0.0.1`) y desde la IP pública autorizada del administrador.
+   * Desde cualquier otra IP externa (como redes móviles), el servidor bloquea el acceso por defecto y exige obligatoriamente autenticación, permitiendo el paso únicamente al usuario `percy` (restringiendo explícitamente el acceso al usuario `profesor`).
+
+### Evidencias:
+* **Petición sin credenciales en la Intranet (Error 401):**  
+  ![Intranet 401](evidencias/intranet-401.png)
+
+* **Acceso correcto a la Intranet autenticado (`200 OK`):**  
+  ![Intranet 200](evidencias/intranet-200.png)
+
+* **Acceso libre a `/admin/` desde la IP permitida:**  
+  ![Admin IP Permitida](evidencias/admin-ip-permitida.png)
+
+* **Petición de autenticación desde una IP externa no permitida (`401 Unauthorized`):**  
+  ![Admin IP Denegada 401](evidencias/admin-ip-denegada-401.jpg)
+
+* **Acceso concedido a `/admin/` con el usuario `percy` desde red externa:**  
+  ![Admin IP Denegada 200](evidencias/admin-ip-denegada-200.jpg)
