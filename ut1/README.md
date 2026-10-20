@@ -41,3 +41,30 @@
 
 * **Comprobación de la zona horaria (`timedatectl`):**  
   ![Timedatectl](evidencias/timedatectl.png)
+
+
+
+---
+
+## Apartado 2. Instalación y configuración básica de Nginx (CE 3.b)
+
+### Acciones realizadas:
+1. **Instalación y Autoarranque:** Se ha instalado Nginx desde los repositorios oficiales de Ubuntu y se ha configurado para que se inicie automáticamente con el sistema operativo (`systemctl enable nginx`).
+2. **Sitio por defecto y página de estado:** 
+   * Se ha configurado una carpeta propia (`/var/www/default/html/`) cuyo contenido muestra la página principal con el texto **«Servidor web de percy»**.
+   * Se ha creado la ruta `/estado` que responde con un texto plano indicando que el servidor funciona correctamente (`Servidor funcionando`).
+3. **Ocultar la versión (Investiga):** Se ha añadido la directiva `server_tokens off;` dentro del bloque `http` en el archivo `/etc/nginx/nginx.conf`. Esto evita que las cabeceras HTTP de respuesta y las páginas de error revelen la versión exacta de Nginx o el sistema operativo subyacente.
+4. **Validación y Persistencia:** Cada cambio de configuración se ha validado mediante `sudo nginx -t` antes de recargar el servicio de forma segura con `sudo systemctl reload nginx`. Se ha comprobado la persistencia reiniciando la instancia EC2.
+
+### Evidencias:
+* **Cabeceras HTTP antes de ocultar la versión:**  
+  ![Cabeceras Antes](evidencias/antes-tokenoff.png)
+
+* **Cabeceras HTTP después de ocultar la versión (`server_tokens off;`):**  
+  ![Cabeceras Después](evidencias/despues-tokenoff.png)
+
+* **Respuesta de la ruta `/estado`:**  
+  ![Estado del Servidor](evidencias/estado-post-reboot.png)
+
+* **Comprobación del servicio tras reiniciar la instancia (Persistencia):**  
+  ![Estado Post Reboot](evidencias/estado-servidor.png)
