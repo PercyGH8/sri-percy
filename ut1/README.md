@@ -105,3 +105,29 @@
 
 * **Navegación al sitio por defecto por IP (`http://<IP-PUBLICA>`):**  
   ![Sitio por Defecto](evidencias/sitio-por-defecto.png) 
+
+
+---
+
+## Apartado 4. Ampliar Nginx con módulos (CE 3.c)
+
+### Acciones realizadas:
+1. **Módulo Fancyindex:** Se ha instalado el paquete `libnginx-mod-http-fancyindex` para dotar a la ruta `/descargas/` de un listado visual avanzado. Se han configurado las directivas `fancyindex_exact_size off;` para mostrar tamaños legibles (KB, MB) y `fancyindex_localtime on;` para reflejar la hora local del servidor. El resto de carpetas del sitio sin `index.html` devuelven un error `403 Forbidden`.
+2. **Módulo PHP-FPM:** Se ha integrado Nginx con el procesador PHP mediante sockets Unix (`php-fpm`). Se ha creado el script `hora.php` configurando explícitamente la zona horaria (`Europe/Madrid`) para mostrar el nombre del autor y la fecha y hora actualizadas en cada petición.
+3. **Tabla de Módulos:**
+
+| Módulo | Descripción / Para qué sirve | Origen | Bloque de activación |
+| :--- | :--- | :--- | :--- |
+| **`core / access`** | Control de acceso y gestión de recursos base | De serie | `http`, `server`, `location` |
+| **`ngx_http_fancyindex_module`** | Listado estético y avanzado de directorios | Externo (Instalado) | `location /descargas` |
+| **`ngx_http_fastcgi_module`** | Interconexión con motores de script externos (PHP-FPM) | De serie | `location ~ \.php$` |
+
+### Evidencias:
+* **Listado de la carpeta `/descargas/` (Fancyindex):**  
+  ![Fancyindex Descargas](evidencias/fancyindex-descargas.png)
+
+* **Ejecución de script dinámico (`hora.php`):**  
+  ![Hora PHP](evidencias/hora-php.png)
+
+* **Restricción de acceso en directorios sin índice (`403 Forbidden`):**  
+  ![Error 403](evidencias/error-403.png)
