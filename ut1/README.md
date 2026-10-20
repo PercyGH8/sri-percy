@@ -68,3 +68,40 @@
 
 * **Comprobación del servicio tras reiniciar la instancia (Persistencia):**  
   ![Estado Post Reboot](evidencias/estado-servidor.png)
+
+
+
+---
+
+## Apartado 3. Sitios virtuales (CE 3.d)
+
+### Acciones realizadas:
+1. **Configuración de Sitios Virtuales:** Se han configurado tres nuevos sitios virtuales independientes en `/etc/nginx/sites-available/` y se han enlazado en `sites-enabled/`:
+   * **`www.percy.test`:** Web principal en el puerto 80. Responde tanto a `www.percy.test` como a `percy.test` mediante la directiva `server_name www.percy.test percy.test;`.
+   * **`blog.percy.test`:** Blog personal en el puerto 80 con la directiva `server_name blog.percy.test;`.
+   * **`Intranet`:** Sitio privado sirviendo en el puerto 8080 (`listen 8080;`).
+   * **`Sitio por defecto`:** Mantiene la respuesta por defecto en el puerto 80 ante peticiones por IP o dominios no configurados.
+2. **Estructura de Directorios:** Cada sitio cuenta con su propio directorio bajo `/var/www/` y un archivo `index.html` personalizado que identifica la web y indica la autoría (`percy`).
+3. **Resolución Local (`hosts`):** Se ha modificado el archivo `hosts` en el equipo cliente para asociar los dominios `.test` a la IP pública de la instancia de AWS.
+
+### Evidencias:
+* **Configuración del archivo `hosts` local:**  
+  ![Fichero Hosts Local](evidencias/hosts-local.png)
+
+* **Comprobación de sitios activos (`sites-enabled`):**  
+  ![Sites Enabled](evidencias/sites-enabled.png)
+
+* **Navegación al sitio principal (`www.percy.test`):**  
+  ![Web Principal](evidencias/web-principal.png)
+
+* **Navegación al sitio principal por alias (`percy.test`):**  
+  ![Web Alias](evidencias/web-alias.png)
+
+* **Navegación al blog (`blog.percy.test`):**  
+  ![Blog](evidencias/blog.png)
+
+* **Navegación a la Intranet (`http://<IP-PUBLICA>:8080`):**  
+  ![Intranet](evidencias/intranet.png)
+
+* **Navegación al sitio por defecto por IP (`http://<IP-PUBLICA>`):**  
+  ![Sitio por Defecto](evidencias/sitio-por-defecto.png) 
