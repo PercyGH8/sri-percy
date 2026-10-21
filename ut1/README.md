@@ -161,3 +161,24 @@
 
 * **Acceso concedido a `/admin/` con el usuario `percy` desde red externa:**  
   ![Admin IP Denegada 200](evidencias/admin-ip-denegada-200.jpg)
+
+
+---
+
+## Apartado 6. Registros: estadísticas e incidencias (CE 3.i)
+
+### 6.1 Registros independientes
+Se ha verificado que cada sitio virtual (`www.percy.test`, `blog.percy.test` e `intranet`) almacena sus registros de accesos y errores en ficheros de log independientes dentro de `/var/log/nginx/`.
+
+### 6.2 Estadísticas y GoAccess
+* Las estadísticas obtenidas desde terminal mediante comandos `awk` y `wc` se encuentran documentadas en [`evidencias/estadisticas.md`](evidencias/estadisticas.md).
+* El informe generado con GoAccess se ha publicado dinámicamente en la intranet y se ha guardado una copia HTML en la carpeta [`informes/goaccess.html`](informes/goaccess.html).
+
+### 6.3 Incidencias documentadas (Método del Detective)
+
+#### Incidencia 1: Error de sintaxis en el archivo de configuración de Nginx
+
+* **Síntoma:** Al intentar aplicar los cambios de configuración ejecutando `sudo systemctl reload nginx`, el servicio rechaza la orden y muestra un aviso de fallo en la terminal.
+* **Pista:** Al revisar el registro de errores del sistema o validar con `sudo nginx -t`, se obtiene el siguiente mensaje de error en `/var/log/nginx/error.log`:
+  ```text
+  2026/10/21 07:15:00 [emerg] 8794#8794: unknown directive "servr_name" in /etc/nginx/sites-enabled/www.percy.test:6
